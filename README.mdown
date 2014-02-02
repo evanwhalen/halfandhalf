@@ -1,0 +1,69 @@
+# HalfAndHalf
+
+_A/B testing never tasted so good_
+
+HalfAndHalf provides A/B testing for conversion funnels and calculates the statistical significance of effects on conversion rates at each step in a funnel. It was built specifically for A/B testing email funnels, but works just as well for website funnels. Every trial, or session, has it's own token which can be attached to email metadata or stored in a web session.
+
+## Install
+
+    gem install halfandhalf
+
+## Usage
+
+First, create an experiment, a control variant and a treatment variant. Place this in an initializer in a Rails app.
+
+    HalfAndHalf.experiment :message_subject do |e|
+      e.control ->(recipient) { "Hi!" }
+      e.treatment ->(recipient) { "Hi, #{recipient.name}!" }, 
+        name: :with_recipient_name
+      # sequential events must be defined in correct order
+      e.events :delivered, :opened, :clicked
+    end
+
+Next, create a new trial to begin the experiment for a specific user. You can think of a trial as a session.
+
+    experiment = HalfAndHalf.get_experiment(:message_subject)
+    trial = experiment.create_trial
+
+This token can be attached as metadata to an email message using a service such as mailgun:
+
+    recipient = OpenStruct.new(email: 'donkey@example.com', name: 'Donkey')
+    message_subject = trial.call(recipient)
+    mailgun = Mailgun::Client.new "your-api-key"
+    mailgun.send_message "example.com",
+        from: 'markymark@example.com',
+        to: recipient.email,
+        subject: trial.call(recipient),
+        text: 'Say hello to your mother for me',
+        'v:message_subject_trial' => trial.token
+
+The trial token can also be stored in a Rails session for testing website funnels.
+
+    session[:message_subject_trial] = trial.token
+
+The token is then used to track events.
+
+    HalfAndHalf.track_event('clicked', token: session[:message_subject_trial])
+
+Get results:
+
+    experiment = HalfAndHalf.get_experiment(:message_subject)
+
+    control = experiment.control
+    delivered = control.get_event(:delivered)
+    delivered.count
+    opened = control.get_event(:opened)
+    opened.count # => 1000
+    opened.conversion_rate # => 0.2089
+
+    treatment = experiment.treatment
+    opened = treatment.get_event(:opened)
+    opened.count # => 1000
+    opened.conversion_rate # => 0.3064
+    opened.count_needed # => 1030
+    # observed effect is not significant until required sample size reached
+    opened.significant? # => false
+
+# Copyright
+
+Copyright (c) 2014 Evan Whalen. See LICENSE.txt for further details.
