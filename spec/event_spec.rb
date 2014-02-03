@@ -51,5 +51,12 @@ describe HalfAndHalf::Event do
       clicked.stub(:conversion_rate).and_return(0.50)
       clicked.count_needed.should == 384
     end
+
+    it "should return infinity if effect is 0" do
+      clicked = HalfAndHalf::Event.new(name: :opened)
+      clicked.stub(:control_conversion_rate).and_return(0.50)
+      clicked.stub(:conversion_rate).and_return(0.50)
+      clicked.count_needed.should == Float::INFINITY
+    end
   end
 end

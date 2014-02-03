@@ -26,7 +26,9 @@ module HalfAndHalf
     end
 
     def count_needed
-      if effect != 0
+      if effect == 0
+        Float::INFINITY
+      else
         (16 * variance / (effect ** 2)).to_i
       end
     end
