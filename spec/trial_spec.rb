@@ -13,4 +13,14 @@ describe HalfAndHalf::Trial do
       trial.token.should == 'ab.a.2'
     end
   end
+
+  describe 'call' do
+
+    it 'should call variant' do
+      variant = HalfAndHalf::Control.new
+      trial = HalfAndHalf::Trial.new(variant: variant)
+      variant.should_receive(:call).with('foo')
+      trial.call('foo')
+    end
+  end
 end

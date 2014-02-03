@@ -1,8 +1,6 @@
-require 'halfandhalf/version'
-
 Gem::Specification.new do |spec|
   spec.name = "halfandhalf"
-  spec.version = HalfAndHalf::Version
+  spec.version = "0.0.1"
   spec.homepage = "http://github.com/evanwhalen/halfandhalf"
   spec.license = "MIT"
   spec.summary = %Q{A/B testing for conversion funnels}

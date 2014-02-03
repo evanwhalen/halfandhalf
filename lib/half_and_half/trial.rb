@@ -12,5 +12,9 @@ module HalfAndHalf
     def token
       [experiment.name, variant.name, number].join('.')
     end
+
+    def call(*args)
+      variant.call(*args)
+    end
   end
 end
