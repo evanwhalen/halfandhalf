@@ -22,7 +22,7 @@ module HalfAndHalf
     end
 
     def significant?
-      count >= count_needed
+      variant.sample_size >= count_needed
     end
 
     def count_needed
