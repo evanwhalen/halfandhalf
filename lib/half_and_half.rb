@@ -17,6 +17,6 @@ module HalfAndHalf
 
   def self.track_event(event, args)
     experiment_name, variant_name, number = args[:token].split('.')
-    Redis.current.setbit([experiment_name, variant_name, event].join("."), number, 1)
+    Redis.current.setbit(['halfandhalf', experiment_name, variant_name, event].join("."), number, 1)
   end
 end

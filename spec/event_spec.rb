@@ -9,8 +9,8 @@ describe HalfAndHalf::Event do
       variant = HalfAndHalf::Control.new(result: 'control a', experiment: experiment)
       experiment.control = variant
       event = HalfAndHalf::Event.new(name: :clicked, variant: variant)
-      Redis.current.setbit('foo.control.clicked', '1', 1)
-      Redis.current.setbit('foo.control.clicked', '2', 1)
+      Redis.current.setbit('halfandhalf.foo.control.clicked', '1', 1)
+      Redis.current.setbit('halfandhalf.foo.control.clicked', '2', 1)
       event.count.should == 2
     end
   end

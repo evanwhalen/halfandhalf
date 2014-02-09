@@ -11,7 +11,7 @@ module HalfAndHalf
     end
 
     def create_trial
-      number = Redis.current.incrby("experiment:#{name}:treatment_count", 1)
+      number = Redis.current.incrby("halfandhalf.#{name}.trial_count", 1)
       variant = if number % 2 == 1
         control
       else
@@ -25,7 +25,7 @@ module HalfAndHalf
     end
 
     def sample_size
-      @sample_size ||= Redis.current.get("experiment:#{name}:treatment_count").to_i / 2
+      @sample_size ||= Redis.current.get("halfandhalf.#{name}.trial_count").to_i / 2
     end
   end
 end

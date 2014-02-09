@@ -32,7 +32,7 @@ describe HalfAndHalf do
       end
       trial = experiment.create_trial
       HalfAndHalf.track_event(:clicked, token: trial.token)
-      Redis.current.bitcount('ab.control.clicked').should == 1
+      Redis.current.bitcount('halfandhalf.ab.control.clicked').should == 1
     end
   end
 
