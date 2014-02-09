@@ -23,5 +23,9 @@ module HalfAndHalf
         number: number
       )
     end
+
+    def sample_size
+      @sample_size ||= Redis.current.get("experiment:#{name}:treatment_count").to_i / 2
+    end
   end
 end

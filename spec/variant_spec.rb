@@ -38,15 +38,4 @@ describe HalfAndHalf::Variant do
       event.variant.should == variant
     end
   end
-
-  describe "sample_size" do
-
-    it 'should return count of first event' do
-      experiment = HalfAndHalf::Experiment.new(name: :foo, events: %w(delivered opened clicked))
-      variant = HalfAndHalf::Variant.new(result: 'foo', name: :a, experiment: experiment)
-      event = variant.events.first
-      event.should_receive(:count).and_return(20)
-      variant.sample_size.should == 20
-    end
-  end
 end

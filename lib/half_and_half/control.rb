@@ -5,5 +5,13 @@ module HalfAndHalf
     def default_name
       :control
     end
+
+    def control?
+      true
+    end
+
+    def treatment?
+      false
+    end
   end
 end

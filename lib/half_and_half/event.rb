@@ -18,11 +18,11 @@ module HalfAndHalf
     end
 
     def conversion_rate
-      count.to_f / variant.sample_size
+      count.to_f / experiment.sample_size
     end
 
     def significant?
-      variant.sample_size >= count_needed
+      experiment.sample_size >= count_needed
     end
 
     def count_needed

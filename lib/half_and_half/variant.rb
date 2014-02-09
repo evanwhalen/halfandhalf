@@ -13,6 +13,14 @@ module HalfAndHalf
       raise NotImplementedError
     end
 
+    def control?
+      raise NotImplementedError
+    end
+
+    def treatment?
+      raise NotImplementedError
+    end
+
     def call(*args)
       if @result.respond_to?(:call)
         @result.call(*args)
@@ -34,10 +42,6 @@ module HalfAndHalf
       events.find do |event|
         event.name.to_sym == name.to_sym
       end
-    end
-
-    def sample_size
-      events.first.count
     end
   end
 end
