@@ -13,8 +13,7 @@ module HalfAndHalf
     end
 
     def count
-      key = [experiment.name, variant.name, name].join(".")
-      Redis.current.bitcount(key)
+      @count ||= Redis.current.bitcount([experiment.name, variant.name, name].join("."))
     end
 
     def conversion_rate
