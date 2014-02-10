@@ -30,7 +30,7 @@ module HalfAndHalf
     end
 
     def events
-      @events ||= experiment.events.map do |name|
+      experiment.events.map do |name|
         HalfAndHalf::Event.new(
           name: name, 
           variant: self

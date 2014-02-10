@@ -25,7 +25,7 @@ module HalfAndHalf
     end
 
     def sample_size
-      @sample_size ||= Redis.current.get("halfandhalf.#{name}.trial_count").to_i / 2
+      Redis.current.get("halfandhalf.#{name}.trial_count").to_i / 2
     end
   end
 end
